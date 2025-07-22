@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1><i class="fas fa-cloud-sun"></i> Weather App</h1>
+            <div class="unit-toggle">
+                <button id="celsius-btn" class="unit-btn active">°C</button>
+                <button id="fahrenheit-btn" class="unit-btn">°F</button>
+            </div>
+        </header>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" id="search-input" placeholder="Search by city name or zip code..." autocomplete="off">
+                    <button id="search-btn" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div id="suggestions" class="suggestions-dropdown"></div>
+            </div>
+            <button id="location-btn" class="location-btn" title="Use current location">
+                <i class="fas fa-location-arrow"></i>
+            </button>
+        </section>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Loading weather data...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error-message" class="error-message hidden">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p id="error-text">Something went wrong. Please try again.</p>
+        </div>
+
+        <!-- Main Weather Display -->
+        <main class="weather-main hidden" id="weather-main">
+            <!-- Current Weather Section -->
+            <section class="current-weather">
+                <div class="current-weather-header">
+                    <div class="location-info">
+                        <h2 id="location-name">New York, NY</h2>
+                        <p id="current-date-time">Monday, December 18, 2023 - 2:30 PM</p>
+                    </div>
+                    <div class="weather-icon-main">
+                        <img id="weather-icon" src="" alt="Weather Icon">
+                    </div>
+                </div>
+                
+                <div class="temperature-display">
+                    <span id="current-temp">22°</span>
+                    <div class="weather-condition">
+                        <p id="weather-condition">Partly Cloudy</p>
+                        <p id="weather-description">Light clouds with sunny intervals</p>
+                    </div>
+                </div>
+
+                <!-- Weather Details Grid -->
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <i class="fas fa-eye"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Visibility</span>
+                            <span id="visibility" class="detail-value">10 km</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-tint"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Humidity</span>
+                            <span id="humidity" class="detail-value">65%</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-wind"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Wind</span>
+                            <span id="wind-speed" class="detail-value">15 km/h</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-compass"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Direction</span>
+                            <span id="wind-direction" class="detail-value">NW</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-thermometer-half"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Feels Like</span>
+                            <span id="feels-like" class="detail-value">25°</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-compress-arrows-alt"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Pressure</span>
+                            <span id="pressure" class="detail-value">1013 hPa</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hourly Forecast Section -->
+            <section class="hourly-forecast">
+                <div class="section-header">
+                    <h3><i class="fas fa-clock"></i> Hourly Forecast</h3>
+                    <div class="forecast-toggle">
+                        <button id="hours-12" class="toggle-btn active">12 Hours</button>
+                        <button id="hours-24" class="toggle-btn">24 Hours</button>
+                    </div>
+                </div>
+                <div class="hourly-container" id="hourly-container">
+                    <!-- Hourly forecast items will be dynamically generated -->
+                </div>
+            </section>
+
+            <!-- 5-Day Forecast Section -->
+            <section class="daily-forecast">
+                <div class="section-header">
+                    <h3><i class="fas fa-calendar-alt"></i> 5-Day Forecast</h3>
+                </div>
+                <div class="daily-container" id="daily-container">
+                    <!-- Daily forecast items will be dynamically generated -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Weather data provided by <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a></p>
+            <p>Built with ❤️ using vanilla JavaScript</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
