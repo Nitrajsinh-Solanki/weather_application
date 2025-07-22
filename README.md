@@ -76,6 +76,6 @@ Deployed using **Vercel**. You can fork the repo and deploy it instantly.
 ## 📌 Author
 
 **Nitrajsinh Solanki**  
-[Portfolio](https://my-portfolio-a299jwhjp-nitrajsinh-solankis-projects.vercel.app) | [GitHub](https://github.com/nitrajsinh-solanki)
+[Portfolio](https://my-portfolio-a299jwhjp-nitrajsinh-solankis-projects.vercel.app/) | [GitHub](https://github.com/nitrajsinh-solanki)
 
 ---
