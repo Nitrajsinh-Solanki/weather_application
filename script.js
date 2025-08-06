@@ -1,4 +1,4 @@
-const API_KEY = '774fb6081dee0b15b6194b5cf5330e17';
+const API_KEY = 'YOUR_API_KEY';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
 
 let currentUnit = 'celsius';
