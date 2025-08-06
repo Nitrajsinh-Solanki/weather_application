@@ -17,7 +17,7 @@ const errorMessage = document.getElementById('error-message');
 const weatherMain = document.getElementById('weather-main');
 const suggestions = document.getElementById('suggestions');
 
-// Event Listeners
+// event listeners
 searchBtn.addEventListener('click', handleSearch);
 searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleSearch();
@@ -54,28 +54,37 @@ function handleSearchInput() {
 }
 
 function showSuggestions(query) {
-    // Simple mock suggestions - in real app, use geocoding API
-    const mockSuggestions = [
-        `${query}, US`,
-        `${query}, UK`,
-        `${query}, CA`
-    ];
+    const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${API_KEY}`;
     
-    suggestions.innerHTML = mockSuggestions
-        .map(item => `<div class="suggestion-item" onclick="selectSuggestion('${item}')">${item}</div>`)
-        .join('');
-    suggestions.style.display = 'block';
+    fetch(geoUrl)
+        .then(res => res.json())
+        .then(data => {
+            if (!data.length) return hideSuggestions();
+
+            suggestions.innerHTML = data.map(item => {
+                const city = `${item.name}, ${item.country}`;
+                return `<div class="suggestion-item" onclick='selectSuggestion(${item.lat}, ${item.lon}, "${city}")'>${city}</div>`;
+            }).join('');
+            suggestions.style.display = 'block';
+        })
+        .catch(err => {
+            console.error(err);
+            hideSuggestions();
+        });
 }
+
 
 function hideSuggestions() {
     suggestions.style.display = 'none';
 }
 
-function selectSuggestion(city) {
+function selectSuggestion(lat, lon, city) {
     searchInput.value = city;
     hideSuggestions();
-    getWeatherByCity(city);
+    getWeatherByCoords(lat, lon);
 }
+
+
 
 function getCurrentLocation() {
     if (navigator.geolocation) {
@@ -97,8 +106,11 @@ function getCurrentLocation() {
 
 function getWeatherByCity(city) {
     showLoading();
-    const url = `${BASE_URL}/weather?q=${city}&appid=${API_KEY}&units=metric`;
-    
+    const cleanedCity = city.split(',')[0].trim(); 
+    const encodedCity = encodeURIComponent(cleanedCity);
+
+    const url = `${BASE_URL}/weather?q=${encodedCity}&appid=${API_KEY}&units=metric`;
+
     fetch(url)
         .then(response => {
             if (!response.ok) throw new Error('City not found');
@@ -106,13 +118,16 @@ function getWeatherByCity(city) {
         })
         .then(data => {
             const { lat, lon } = data.coord;
+            if (!lat || !lon) throw new Error('Invalid coordinates');
             getWeatherByCoords(lat, lon);
         })
         .catch(error => {
             hideLoading();
             showError('City not found. Please try again.');
+            console.error(error);
         });
 }
+
 
 function getWeatherByCoords(lat, lon) {
     const currentWeatherUrl = `${BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
